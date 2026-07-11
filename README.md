@@ -12,3 +12,9 @@ Comandos principais:
 - flutter test
 - flutter test --coverage
 - flutter analyze --fatal-infos
+
+## Release automatizado
+
+O workflow de release é disparado por tags SemVer no formato v*.*.* e publica um AAB assinado no GitHub Releases.
+
+Próximo passo futuro para iOS: configurar certificados e provisioning profile para publicação na App Store.
