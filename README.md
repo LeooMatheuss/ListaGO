@@ -34,3 +34,9 @@ O APK gerado fica em `build/app/outputs/flutter-apk/`.
 ### Limitação
 
 O build de iOS não está containerizado porque exige macOS nativo com Xcode e certificados/provisioning profile. O fluxo local de compilação para iOS continua sendo o build check do CI.
+
+## Configuração de branches do GitHub
+
+Para manter o fluxo profissional do repositório, as regras recomendadas são:
+- `main`: exigir PR, exigir status check `analyze-and-test`, exigir 1 aprovação e bloquear force-push
+- `develop`: exigir status check `analyze-and-test` e permitir apenas squash merge
