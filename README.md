@@ -1,5 +1,7 @@
 # ListaGO
 
+![CI](https://github.com/LeooMatheuss/ListaGO/actions/workflows/ci.yaml/badge.svg)
+
 ## Cobertura de testes
 
 Meta mínima de cobertura para validação contínua:
