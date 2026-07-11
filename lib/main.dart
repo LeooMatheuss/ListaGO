@@ -32,9 +32,7 @@ class HomePage extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ListaGO'),
-      ),
+      appBar: AppBar(title: const Text('ListaGO')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),

@@ -11,13 +11,9 @@ class AppColors {
 
   static const Color seed = Color(0xFFD64545);
 
-  static ColorScheme get light => ColorScheme.fromSeed(
-        seedColor: seed,
-        brightness: Brightness.light,
-      );
+  static ColorScheme get light =>
+      ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.light);
 
-  static ColorScheme get dark => ColorScheme.fromSeed(
-        seedColor: seed,
-        brightness: Brightness.dark,
-      );
+  static ColorScheme get dark =>
+      ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.dark);
 }

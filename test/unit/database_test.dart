@@ -18,42 +18,50 @@ void main() {
   });
 
   test('permite inserir e recuperar dados em cada tabela', () async {
-    final listId = await database.into(database.shoppingLists).insert(
-      ShoppingListsCompanion.insert(
-        name: 'Compras da semana',
-        createdAt: DateTime(2026, 7, 11),
-        updatedAt: DateTime(2026, 7, 11),
-        favorite: const Value(true),
-      ),
-    );
+    final listId = await database
+        .into(database.shoppingLists)
+        .insert(
+          ShoppingListsCompanion.insert(
+            name: 'Compras da semana',
+            createdAt: DateTime(2026, 7, 11),
+            updatedAt: DateTime(2026, 7, 11),
+            favorite: const Value(true),
+          ),
+        );
 
-    final itemId = await database.into(database.shoppingItems).insert(
-      ShoppingItemsCompanion.insert(
-        listId: listId,
-        name: 'Maçã',
-        quantity: '2',
-        unit: MeasurementUnit.unidade,
-        category: ItemCategory.hortifruti,
-        bought: const Value(false),
-        addedAt: DateTime(2026, 7, 11),
-      ),
-    );
+    final itemId = await database
+        .into(database.shoppingItems)
+        .insert(
+          ShoppingItemsCompanion.insert(
+            listId: listId,
+            name: 'Maçã',
+            quantity: '2',
+            unit: MeasurementUnit.unidade,
+            category: ItemCategory.hortifruti,
+            bought: const Value(false),
+            addedAt: DateTime(2026, 7, 11),
+          ),
+        );
 
-    await database.into(database.learnedCategories).insert(
-      LearnedCategoriesCompanion.insert(
-        term: 'tomate',
-        category: ItemCategory.hortifruti,
-        frequencyUsage: const Value(3),
-      ),
-    );
+    await database
+        .into(database.learnedCategories)
+        .insert(
+          LearnedCategoriesCompanion.insert(
+            term: 'tomate',
+            category: ItemCategory.hortifruti,
+            frequencyUsage: const Value(3),
+          ),
+        );
 
-    await database.into(database.productMemories).insert(
-      ProductMemoriesCompanion.insert(
-        normalizedName: 'banana-prata',
-        associatedCategory: ItemCategory.hortifruti,
-        lastUsedAt: DateTime(2026, 7, 11),
-      ),
-    );
+    await database
+        .into(database.productMemories)
+        .insert(
+          ProductMemoriesCompanion.insert(
+            normalizedName: 'banana-prata',
+            associatedCategory: ItemCategory.hortifruti,
+            lastUsedAt: DateTime(2026, 7, 11),
+          ),
+        );
 
     final savedList = await database.managers.shoppingLists.getSingle();
     final savedItem = await database.managers.shoppingItems.getSingle();

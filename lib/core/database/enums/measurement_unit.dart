@@ -1,14 +1,6 @@
 import 'package:drift/drift.dart';
 
-enum MeasurementUnit {
-  kg,
-  g,
-  l,
-  ml,
-  unidade,
-  pacote,
-  duzia,
-}
+enum MeasurementUnit { kg, g, l, ml, unidade, pacote, duzia }
 
 extension MeasurementUnitDisplay on MeasurementUnit {
   String get label {

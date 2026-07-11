@@ -12,10 +12,6 @@ class AppTypography {
         ? ThemeData.dark().textTheme
         : ThemeData.light().textTheme;
 
-    return base.apply(
-      fontFamily: null,
-      bodyColor: null,
-      displayColor: null,
-    );
+    return base.apply(fontFamily: null, bodyColor: null, displayColor: null);
   }
 }
