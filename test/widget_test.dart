@@ -5,15 +5,15 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:listago/main.dart';
 
 void main() {
   testWidgets('App starts with initial home screen', (tester) async {
-    await tester.pumpWidget(const ListagoApp());
+    await tester.pumpWidget(const ProviderScope(child: ListagoApp()));
 
-    expect(find.text('ListaGO'), findsWidgets);
-    expect(find.text('Seu market list inteligente'), findsOneWidget);
+    expect(find.text('Minhas listas'), findsOneWidget);
   });
 }
