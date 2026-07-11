@@ -65,19 +65,41 @@ class ListRepositoryImpl implements ListRepository {
 
   @override
   Future<int> duplicateList(int id) async {
-    final rows = await (database.select(
-      database.shoppingLists,
-    )..where((tbl) => tbl.id.equals(id))).get();
+    return database.transaction<int>(() async {
+      final listRows = await (database.select(
+        database.shoppingLists,
+      )..where((tbl) => tbl.id.equals(id))).get();
 
-    if (rows.isEmpty) {
-      throw StateError('Lista não encontrada');
-    }
+      if (listRows.isEmpty) {
+        throw StateError('Lista não encontrada');
+      }
 
-    final original = rows.first;
-    return createList(
-      name: '${original.name} (cópia)',
-      favorite: original.favorite,
-    );
+      final original = listRows.first;
+      final newListId = await createList(
+        name: '${original.name} (cópia)',
+        favorite: original.favorite,
+      );
+
+      final itemRows = await (database.select(
+        database.shoppingItems,
+      )..where((tbl) => tbl.listId.equals(id))).get();
+
+      for (final item in itemRows) {
+        await database.into(database.shoppingItems).insert(
+          ShoppingItemsCompanion.insert(
+            listId: newListId,
+            name: item.name,
+            quantity: item.quantity,
+            unit: item.unit,
+            category: item.category,
+            bought: Value(item.bought),
+            addedAt: item.addedAt,
+          ),
+        );
+      }
+
+      return newListId;
+    });
   }
 
   @override
