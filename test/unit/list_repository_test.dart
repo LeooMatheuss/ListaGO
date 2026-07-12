@@ -30,7 +30,9 @@ void main() {
     );
 
     final duplicatedListId = await listRepository.duplicateList(originalListId);
-    final duplicatedItems = await itemRepository.listItemsForList(duplicatedListId);
+    final duplicatedItems = await itemRepository.listItemsForList(
+      duplicatedListId,
+    );
     final originalItems = await itemRepository.listItemsForList(originalListId);
 
     expect(duplicatedItems, hasLength(1));

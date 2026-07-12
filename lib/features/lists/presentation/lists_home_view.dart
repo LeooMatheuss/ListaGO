@@ -21,7 +21,8 @@ class ListsHomeView extends ConsumerWidget {
           if (lists.isEmpty) {
             return const EmptyStateView(
               title: 'Nenhuma lista ainda',
-              message: 'Toque no botão + para criar sua primeira lista de compras.',
+              message:
+                  'Toque no botão + para criar sua primeira lista de compras.',
               icon: Icons.shopping_basket_outlined,
             );
           }
@@ -40,10 +41,8 @@ class ListsHomeView extends ConsumerWidget {
                 list: list,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
-                    builder: (_) => ListDetailView(
-                      listId: list.id,
-                      listName: list.name,
-                    ),
+                    builder: (_) =>
+                        ListDetailView(listId: list.id, listName: list.name),
                   ),
                 ),
                 onToggleFavorite: () => ref
@@ -54,9 +53,9 @@ class ListsHomeView extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => EmptyStateView(
+        error: (_, _) => const EmptyStateView(
           title: 'Não foi possível carregar',
-          message: error.toString(),
+          message: 'Ocorreu um erro inesperado. Tente novamente.',
           icon: Icons.error_outline,
         ),
       ),
@@ -67,7 +66,10 @@ class ListsHomeView extends ConsumerWidget {
     );
   }
 
-  Future<void> _showCreateListDialog(BuildContext context, WidgetRef ref) async {
+  Future<void> _showCreateListDialog(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final controller = TextEditingController();
     final confirmed = await showDialog<bool>(
       context: context,

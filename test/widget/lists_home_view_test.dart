@@ -9,7 +9,7 @@ import 'package:listago/features/lists/providers/list_repository_provider.dart';
 
 class _FakeListRepository implements ListRepository {
   _FakeListRepository({List<ShoppingList>? initialLists})
-      : _lists = List<ShoppingList>.from(initialLists ?? const []);
+    : _lists = List<ShoppingList>.from(initialLists ?? const []);
 
   final List<ShoppingList> _lists;
 
@@ -29,7 +29,8 @@ class _FakeListRepository implements ListRepository {
   }
 
   @override
-  Future<void> deleteList(int id) async => _lists.removeWhere((list) => list.id == id);
+  Future<void> deleteList(int id) async =>
+      _lists.removeWhere((list) => list.id == id);
 
   @override
   Future<int> duplicateList(int id) async => 2;
@@ -53,7 +54,11 @@ class _FakeListRepository implements ListRepository {
   }
 
   @override
-  Future<void> updateList({required int id, String? name, bool? favorite}) async {}
+  Future<void> updateList({
+    required int id,
+    String? name,
+    bool? favorite,
+  }) async {}
 }
 
 void main() {
@@ -63,7 +68,10 @@ void main() {
         overrides: [
           listRepositoryProvider.overrideWithValue(_FakeListRepository()),
         ],
-        child: MaterialApp(theme: AppTheme.light(), home: const ListsHomeView()),
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ListsHomeView(),
+        ),
       ),
     );
 
@@ -88,7 +96,10 @@ void main() {
             _FakeListRepository(initialLists: [list]),
           ),
         ],
-        child: MaterialApp(theme: AppTheme.light(), home: const ListsHomeView()),
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ListsHomeView(),
+        ),
       ),
     );
 

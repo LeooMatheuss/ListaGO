@@ -43,7 +43,9 @@ class _AddItemViewState extends ConsumerState<AddItemView> {
         : _quantityController.text.trim();
     final category = ref.read(addItemNotifierProvider).suggestedCategory;
 
-    await ref.read(listDetailNotifierProvider.notifier).adicionarItem(
+    await ref
+        .read(listDetailNotifierProvider.notifier)
+        .adicionarItem(
           name: name,
           quantity: quantity,
           unit: _selectedUnit.name,
@@ -120,10 +122,7 @@ class _AddItemViewState extends ConsumerState<AddItemView> {
               ],
             ),
             const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Categoria',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
+            Text('Categoria', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: AppSpacing.sm),
             Wrap(
               spacing: AppSpacing.sm,
@@ -148,7 +147,9 @@ class _AddItemViewState extends ConsumerState<AddItemView> {
             ListenableBuilder(
               listenable: _nameController,
               builder: (context, _) => FilledButton.icon(
-                onPressed: _nameController.text.trim().isEmpty ? null : _addItem,
+                onPressed: _nameController.text.trim().isEmpty
+                    ? null
+                    : _addItem,
                 icon: const Icon(Icons.add),
                 label: const Text('Adicionar à lista'),
               ),

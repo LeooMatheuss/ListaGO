@@ -22,8 +22,8 @@ class CategoryChip extends StatelessWidget {
       label: Text(
         category.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSecondaryContainer,
-            ),
+          color: colorScheme.onSecondaryContainer,
+        ),
       ),
       backgroundColor: colorScheme.secondaryContainer,
       side: BorderSide.none,

@@ -29,7 +29,9 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(listDetailNotifierProvider.notifier).configureList(widget.listId);
+      ref
+          .read(listDetailNotifierProvider.notifier)
+          .configureList(widget.listId);
     });
   }
 
@@ -80,7 +82,10 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
                           child: ShoppingItemTile(
                             item: item,
                             onToggleBought: (value) async {
-                              await notifier.marcarComprado(item.id, bought: value);
+                              await notifier.marcarComprado(
+                                item.id,
+                                bought: value,
+                              );
                             },
                           ),
                         ),
@@ -93,16 +98,16 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => EmptyStateView(
+        error: (_, _) => const EmptyStateView(
           title: 'Não foi possível carregar os itens',
-          message: error.toString(),
+          message: 'Ocorreu um erro inesperado. Tente novamente.',
           icon: Icons.error_outline,
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (_) => const AddItemView()),
-        ),
+        onPressed: () => Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const AddItemView())),
         child: const Icon(Icons.add),
       ),
     );
@@ -113,8 +118,9 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
   ) {
     final result = <ItemCategory, List<ShoppingItem>>{};
     for (final category in ItemCategory.values) {
-      final categoryItems =
-          items.where((item) => item.category == category.name).toList();
+      final categoryItems = items
+          .where((item) => item.category == category.name)
+          .toList();
       if (categoryItems.isNotEmpty) {
         result[category] = categoryItems;
       }
@@ -145,9 +151,9 @@ class _ProgressBar extends StatelessWidget {
             ),
             Text(
               label,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: colorScheme.primary,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(color: colorScheme.primary),
             ),
           ],
         ),
@@ -183,9 +189,9 @@ class _CategoryHeader extends StatelessWidget {
           const SizedBox(width: AppSpacing.xs),
           Text(
             category.label,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: colorScheme.secondary,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(color: colorScheme.secondary),
           ),
         ],
       ),

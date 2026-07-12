@@ -51,7 +51,9 @@ class ListCard extends StatelessWidget {
                 onPressed: onToggleFavorite,
                 icon: Icon(
                   list.favorite ? Icons.star : Icons.star_border,
-                  color: list.favorite ? colorScheme.primary : colorScheme.outline,
+                  color: list.favorite
+                      ? colorScheme.primary
+                      : colorScheme.outline,
                 ),
               ),
             ],

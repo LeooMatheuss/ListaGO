@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 import '../../../core/database/app_database.dart';
 import '../../../core/database/enums/item_category.dart';
 import '../domain/product_memory.dart' as domain_memory;
@@ -13,19 +15,31 @@ class ProductMemoryRepositoryImpl implements ProductMemoryRepository {
     required String normalizedName,
     required String category,
   }) async {
-    await database
-        .into(database.productMemories)
-        .insert(
-          ProductMemoriesCompanion.insert(
-            normalizedName: normalizedName,
-            associatedCategory: _parseCategory(category),
-            lastUsedAt: DateTime.now(),
-          ),
-        );
+    final existing =
+        await (database.select(database.productMemories)
+              ..where((tbl) => tbl.normalizedName.equals(normalizedName)))
+            .getSingleOrNull();
+
+    final companion = ProductMemoriesCompanion(
+      normalizedName: Value(normalizedName),
+      associatedCategory: Value(_parseCategory(category)),
+      lastUsedAt: Value(DateTime.now()),
+    );
+
+    if (existing == null) {
+      await database.into(database.productMemories).insert(companion);
+      return;
+    }
+
+    await (database.update(
+      database.productMemories,
+    )..where((tbl) => tbl.id.equals(existing.id))).write(companion);
   }
 
   @override
-  Future<List<domain_memory.ProductMemory>> historyFor(String normalizedName) async {
+  Future<List<domain_memory.ProductMemory>> historyFor(
+    String normalizedName,
+  ) async {
     final rows = await (database.select(
       database.productMemories,
     )..where((tbl) => tbl.normalizedName.equals(normalizedName))).get();

@@ -29,13 +29,15 @@ class _FakeListRepository implements ListRepository {
   @override
   Future<int> createList({required String name, bool favorite = false}) async {
     final id = _lists.length + 1;
-    _lists.add(ShoppingList(
-      id: id,
-      name: name,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      favorite: favorite,
-    ));
+    _lists.add(
+      ShoppingList(
+        id: id,
+        name: name,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        favorite: favorite,
+      ),
+    );
     return id;
   }
 
@@ -88,16 +90,18 @@ class _FakeItemRepository implements ItemRepository {
     bool bought = false,
   }) async {
     final id = _items.length + 1;
-    _items.add(ShoppingItem(
-      id: id,
-      listId: listId,
-      name: name,
-      quantity: quantity,
-      unit: unit,
-      category: category,
-      bought: bought,
-      addedAt: DateTime.now(),
-    ));
+    _items.add(
+      ShoppingItem(
+        id: id,
+        listId: listId,
+        name: name,
+        quantity: quantity,
+        unit: unit,
+        category: category,
+        bought: bought,
+        addedAt: DateTime.now(),
+      ),
+    );
     return id;
   }
 
@@ -138,12 +142,7 @@ class _FakeLearnedCategoryRepository implements LearnedCategoryRepository {
   Future<LearnedCategory?> findByTerm(String term) async {
     final cat = _categories[term];
     if (cat == null) return null;
-    return LearnedCategory(
-      id: 1,
-      term: term,
-      category: cat,
-      frequencyUsage: 1,
-    );
+    return LearnedCategory(id: 1, term: term, category: cat, frequencyUsage: 1);
   }
 
   @override
@@ -306,10 +305,7 @@ void main() {
         MaterialApp(
           theme: AppTheme.light(),
           home: Scaffold(
-            body: ShoppingItemTile(
-              item: item,
-              onToggleBought: (_) {},
-            ),
+            body: ShoppingItemTile(item: item, onToggleBought: (_) {}),
           ),
         ),
       );

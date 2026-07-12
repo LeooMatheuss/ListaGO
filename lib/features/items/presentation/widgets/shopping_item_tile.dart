@@ -28,11 +28,11 @@ class ShoppingItemTile extends StatelessWidget {
         title: Text(
           item.name,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                decoration: bought ? TextDecoration.lineThrough : null,
-                color: bought
-                    ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)
-                    : null,
-              ),
+            decoration: bought ? TextDecoration.lineThrough : null,
+            color: bought
+                ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)
+                : null,
+          ),
         ),
         subtitle: Text('${item.quantity} ${_unitLabel(item.unit)}'),
         trailing: CategoryChip(category: _parseCategory(item.category)),

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import 'enums/item_category.dart';
 import 'enums/measurement_unit.dart';
@@ -11,8 +15,16 @@ import 'tables/shopping_lists.dart';
 
 part 'app_database.g.dart';
 
+QueryExecutor _openDatabase() {
+  return LazyDatabase(() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dir.path, 'listago.sqlite'));
+    return NativeDatabase(file);
+  });
+}
+
 final appDatabaseProvider = Provider<AppDatabase>((ref) {
-  final database = AppDatabase(NativeDatabase.memory());
+  final database = AppDatabase(_openDatabase());
   ref.onDispose(database.close);
   return database;
 });
@@ -30,11 +42,22 @@ class AppDatabase extends _$AppDatabase {
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       await m.createAll();
+      await _createIndexes();
     },
     onUpgrade: (m, from, to) async {
-      if (from < to) {
-        await m.createAll();
-      }
+      await m.createAll();
+      await _createIndexes();
     },
   );
+
+  Future<void> _createIndexes() async {
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_items_list_id '
+      'ON shopping_items (list_id)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_items_list_bought '
+      'ON shopping_items (list_id, bought)',
+    );
+  }
 }

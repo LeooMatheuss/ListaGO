@@ -6,7 +6,8 @@ import 'shopping_lists.dart';
 
 class ShoppingItems extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get listId => integer().references(ShoppingLists, #id)();
+  IntColumn get listId =>
+      integer().references(ShoppingLists, #id, onDelete: KeyAction.cascade)();
   TextColumn get name => text()();
   TextColumn get quantity => text()();
   TextColumn get unit => text().map(const MeasurementUnitConverter())();

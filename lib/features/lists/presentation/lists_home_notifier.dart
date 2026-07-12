@@ -47,5 +47,5 @@ class ListsHomeNotifier extends AsyncNotifier<List<ShoppingList>> {
 
 final listsHomeNotifierProvider =
     AsyncNotifierProvider<ListsHomeNotifier, List<ShoppingList>>(() {
-  return ListsHomeNotifier();
-});
+      return ListsHomeNotifier();
+    });

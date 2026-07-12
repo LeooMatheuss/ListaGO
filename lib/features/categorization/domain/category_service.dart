@@ -97,7 +97,10 @@ class CategoryService {
   }
 
   ItemCategory? _matchSingleWord(String normalizedTerm) {
-    final words = normalizedTerm.split(' ').where((word) => word.isNotEmpty).toList();
+    final words = normalizedTerm
+        .split(' ')
+        .where((word) => word.isNotEmpty)
+        .toList();
     for (final word in words) {
       final match = _matchExact(word);
       if (match != null) {
@@ -108,14 +111,24 @@ class CategoryService {
   }
 
   bool _containsAsPhrase(String haystack, String needle) {
-    final haystackWords = haystack.split(' ').where((word) => word.isNotEmpty).toList();
-    final needleWords = needle.split(' ').where((word) => word.isNotEmpty).toList();
+    final haystackWords = haystack
+        .split(' ')
+        .where((word) => word.isNotEmpty)
+        .toList();
+    final needleWords = needle
+        .split(' ')
+        .where((word) => word.isNotEmpty)
+        .toList();
 
     if (needleWords.isEmpty || needleWords.length > haystackWords.length) {
       return false;
     }
 
-    for (var start = 0; start <= haystackWords.length - needleWords.length; start++) {
+    for (
+      var start = 0;
+      start <= haystackWords.length - needleWords.length;
+      start++
+    ) {
       var found = true;
       for (var index = 0; index < needleWords.length; index++) {
         if (haystackWords[start + index] != needleWords[index]) {

@@ -85,17 +85,19 @@ class ListRepositoryImpl implements ListRepository {
       )..where((tbl) => tbl.listId.equals(id))).get();
 
       for (final item in itemRows) {
-        await database.into(database.shoppingItems).insert(
-          ShoppingItemsCompanion.insert(
-            listId: newListId,
-            name: item.name,
-            quantity: item.quantity,
-            unit: item.unit,
-            category: item.category,
-            bought: Value(item.bought),
-            addedAt: item.addedAt,
-          ),
-        );
+        await database
+            .into(database.shoppingItems)
+            .insert(
+              ShoppingItemsCompanion.insert(
+                listId: newListId,
+                name: item.name,
+                quantity: item.quantity,
+                unit: item.unit,
+                category: item.category,
+                bought: Value(item.bought),
+                addedAt: item.addedAt,
+              ),
+            );
       }
 
       return newListId;

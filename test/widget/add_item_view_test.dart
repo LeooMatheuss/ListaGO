@@ -16,12 +16,22 @@ class _FakeLearnedCategoryRepository implements LearnedCategoryRepository {
   Future<LearnedCategory?> findByTerm(String term) async => null;
 
   @override
-  Future<void> upsertCategory({required String term, required String category}) async {}
+  Future<void> upsertCategory({
+    required String term,
+    required String category,
+  }) async {}
 }
 
 class _FakeItemRepository implements ItemRepository {
   @override
-  Future<int> addItem({required int listId, required String name, required String quantity, required String unit, required String category, bool bought = false}) async => 1;
+  Future<int> addItem({
+    required int listId,
+    required String name,
+    required String quantity,
+    required String unit,
+    required String category,
+    bool bought = false,
+  }) async => 1;
 
   @override
   Future<List<ShoppingItem>> listItemsForList(int listId) async => const [];
@@ -42,13 +52,19 @@ class _PreConfiguredListDetailNotifier extends ListDetailNotifier {
 }
 
 void main() {
-  testWidgets('sugere categoria ao digitar e permite sobrescrever', (tester) async {
+  testWidgets('sugere categoria ao digitar e permite sobrescrever', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          learnedCategoryRepositoryProvider.overrideWithValue(_FakeLearnedCategoryRepository()),
+          learnedCategoryRepositoryProvider.overrideWithValue(
+            _FakeLearnedCategoryRepository(),
+          ),
           itemRepositoryProvider.overrideWithValue(_FakeItemRepository()),
-          listDetailNotifierProvider.overrideWith(() => _PreConfiguredListDetailNotifier()),
+          listDetailNotifierProvider.overrideWith(
+            () => _PreConfiguredListDetailNotifier(),
+          ),
         ],
         child: MaterialApp(theme: AppTheme.light(), home: const AddItemView()),
       ),

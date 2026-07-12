@@ -20,7 +20,15 @@ class _FakeListRepository implements ListRepository {
   @override
   Future<int> createList({required String name, bool favorite = false}) async {
     final id = lists.length + 1;
-    lists.add(ShoppingList(id: id, name: name, createdAt: DateTime.now(), updatedAt: DateTime.now(), favorite: favorite));
+    lists.add(
+      ShoppingList(
+        id: id,
+        name: name,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        favorite: favorite,
+      ),
+    );
     return id;
   }
 
@@ -43,33 +51,71 @@ class _FakeListRepository implements ListRepository {
     final index = lists.indexWhere((list) => list.id == id);
     if (index >= 0) {
       final current = lists[index];
-      lists[index] = ShoppingList(id: current.id, name: current.name, createdAt: current.createdAt, updatedAt: current.updatedAt, favorite: !current.favorite);
+      lists[index] = ShoppingList(
+        id: current.id,
+        name: current.name,
+        createdAt: current.createdAt,
+        updatedAt: current.updatedAt,
+        favorite: !current.favorite,
+      );
     }
   }
 
   @override
-  Future<void> updateList({required int id, String? name, bool? favorite}) async {}
+  Future<void> updateList({
+    required int id,
+    String? name,
+    bool? favorite,
+  }) async {}
 }
 
 class _FakeItemRepository implements ItemRepository {
   final items = <ShoppingItem>[];
 
   @override
-  Future<int> addItem({required int listId, required String name, required String quantity, required String unit, required String category, bool bought = false}) async {
+  Future<int> addItem({
+    required int listId,
+    required String name,
+    required String quantity,
+    required String unit,
+    required String category,
+    bool bought = false,
+  }) async {
     final id = items.length + 1;
-    items.add(ShoppingItem(id: id, listId: listId, name: name, quantity: quantity, unit: unit, category: category, bought: bought, addedAt: DateTime.now()));
+    items.add(
+      ShoppingItem(
+        id: id,
+        listId: listId,
+        name: name,
+        quantity: quantity,
+        unit: unit,
+        category: category,
+        bought: bought,
+        addedAt: DateTime.now(),
+      ),
+    );
     return id;
   }
 
   @override
-  Future<List<ShoppingItem>> listItemsForList(int listId) async => items.where((item) => item.listId == listId).toList();
+  Future<List<ShoppingItem>> listItemsForList(int listId) async =>
+      items.where((item) => item.listId == listId).toList();
 
   @override
   Future<void> markAsBought(int id, {required bool bought}) async {
     final index = items.indexWhere((item) => item.id == id);
     if (index >= 0) {
       final current = items[index];
-      items[index] = ShoppingItem(id: current.id, listId: current.listId, name: current.name, quantity: current.quantity, unit: current.unit, category: current.category, bought: bought, addedAt: current.addedAt);
+      items[index] = ShoppingItem(
+        id: current.id,
+        listId: current.listId,
+        name: current.name,
+        quantity: current.quantity,
+        unit: current.unit,
+        category: current.category,
+        bought: bought,
+        addedAt: current.addedAt,
+      );
     }
   }
 
@@ -83,7 +129,16 @@ class _FakeItemRepository implements ItemRepository {
     final index = items.indexWhere((item) => item.id == id);
     if (index >= 0) {
       final current = items[index];
-      items[index] = ShoppingItem(id: current.id, listId: current.listId, name: current.name, quantity: quantity, unit: current.unit, category: current.category, bought: current.bought, addedAt: current.addedAt);
+      items[index] = ShoppingItem(
+        id: current.id,
+        listId: current.listId,
+        name: current.name,
+        quantity: quantity,
+        unit: current.unit,
+        category: current.category,
+        bought: current.bought,
+        addedAt: current.addedAt,
+      );
     }
   }
 }
@@ -92,7 +147,10 @@ class _FakeLearnedCategoryRepository implements LearnedCategoryRepository {
   final Map<String, String> categories = <String, String>{};
 
   @override
-  Future<void> upsertCategory({required String term, required String category}) async {
+  Future<void> upsertCategory({
+    required String term,
+    required String category,
+  }) async {
     categories[term] = category;
   }
 
@@ -102,15 +160,22 @@ class _FakeLearnedCategoryRepository implements LearnedCategoryRepository {
     if (category == null) {
       return null;
     }
-    return LearnedCategory(id: 1, term: term, category: category, frequencyUsage: 1);
+    return LearnedCategory(
+      id: 1,
+      term: term,
+      category: category,
+      frequencyUsage: 1,
+    );
   }
 }
 
 void main() {
   test('lists notifier cria e lista compras', () async {
-    final container = ProviderContainer(overrides: [
-      listRepositoryProvider.overrideWithValue(_FakeListRepository()),
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        listRepositoryProvider.overrideWithValue(_FakeListRepository()),
+      ],
+    );
 
     addTearDown(container.dispose);
     final notifier = container.read(listsHomeNotifierProvider.notifier);
@@ -123,15 +188,20 @@ void main() {
 
   test('list detail notifier adiciona e calcula progresso', () async {
     final repository = _FakeItemRepository();
-    final container = ProviderContainer(overrides: [
-      itemRepositoryProvider.overrideWithValue(repository),
-    ]);
+    final container = ProviderContainer(
+      overrides: [itemRepositoryProvider.overrideWithValue(repository)],
+    );
 
     addTearDown(container.dispose);
 
     final notifier = container.read(listDetailNotifierProvider.notifier);
     await notifier.configureList(1);
-    await notifier.adicionarItem(name: 'Arroz', quantity: '1', unit: 'kg', category: ItemCategory.mercearia.name);
+    await notifier.adicionarItem(
+      name: 'Arroz',
+      quantity: '1',
+      unit: 'kg',
+      category: ItemCategory.mercearia.name,
+    );
     await notifier.marcarComprado(1, bought: true);
 
     expect(container.read(listDetailNotifierProvider).value, isNotEmpty);
@@ -140,9 +210,11 @@ void main() {
 
   test('add item notifier sugere categoria e aprende correção', () async {
     final repository = _FakeLearnedCategoryRepository();
-    final container = ProviderContainer(overrides: [
-      learnedCategoryRepositoryProvider.overrideWithValue(repository),
-    ]);
+    final container = ProviderContainer(
+      overrides: [
+        learnedCategoryRepositoryProvider.overrideWithValue(repository),
+      ],
+    );
 
     addTearDown(container.dispose);
 

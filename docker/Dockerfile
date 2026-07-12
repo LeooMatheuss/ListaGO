@@ -1,3 +1,5 @@
+# Pin to a specific Flutter version for reproducible builds.
+# Update manually when upgrading Flutter (e.g. ghcr.io/cirruslabs/flutter:3.32.0).
 FROM ghcr.io/cirruslabs/flutter:stable AS build
 
 WORKDIR /app

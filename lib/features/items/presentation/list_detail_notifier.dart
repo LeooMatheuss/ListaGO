@@ -78,5 +78,5 @@ class ListDetailNotifier extends AsyncNotifier<List<ShoppingItem>> {
 
 final listDetailNotifierProvider =
     AsyncNotifierProvider<ListDetailNotifier, List<ShoppingItem>>(() {
-  return ListDetailNotifier();
-});
+      return ListDetailNotifier();
+    });
